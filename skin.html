@@ -25,16 +25,23 @@
   <script>
     $(function () {
       $('.btn_menu').on('click', function () {
-        $('.area_sidebar').show();
+        $('.area_sidebar').addClass('is-open');
         $('body').css('overflow', 'hidden');
       });
       $('.btn_search').on('click', function () {
-        $('.area_popup').show();
+        $('.area_popup').addClass('is-open');
         $('body').css('overflow', 'hidden');
       });
       $('.btn_close, .dimmed_sidebar').on('click', function () {
-        $('.area_sidebar, .area_popup').hide();
+        $('.area_sidebar, .area_popup').removeClass('is-open');
         $('body').css('overflow', 'auto');
+      });
+      // ESC 키로 닫기
+      $(document).on('keydown', function (e) {
+        if (e.key === 'Escape') {
+          $('.area_sidebar, .area_popup').removeClass('is-open');
+          $('body').css('overflow', 'auto');
+        }
       });
 
       // Continue 버튼 부드러운 스크롤
@@ -99,7 +106,7 @@
       </nav>
 
       <!-- 사이드 패널 -->
-      <aside class="area_sidebar thema_apply" style="display:none;">
+      <aside class="area_sidebar thema_apply">
         <div class="inner_sidebar">
           <button type="button" class="btn_close" title="닫기">
             <i class="fa-solid fa-xmark"></i>
@@ -149,7 +156,7 @@
       </aside>
 
       <!-- 검색 팝업 -->
-      <div class="area_popup" style="display:none;">
+      <div class="area_popup">
         <div class="area_search thema_apply">
           <div class="search_header">
             <h1 class="title_logo">
