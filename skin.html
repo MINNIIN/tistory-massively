@@ -55,6 +55,92 @@
 
       // 프리로드 해제
       setTimeout(function () { $('body').removeClass('is-preload'); }, 100);
+
+      // ───────────────────────────────────
+      // Ink Stroke Trail (캘리그래피 톤 마우스 트레일)
+      // ───────────────────────────────────
+      (function () {
+        if (matchMedia('(hover: none), (pointer: coarse)').matches) return;
+
+        var canvas = document.querySelector('.ink-trail');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+        var dpr = window.devicePixelRatio || 1;
+
+        function resize() {
+          canvas.width = innerWidth * dpr;
+          canvas.height = innerHeight * dpr;
+          canvas.style.width = innerWidth + 'px';
+          canvas.style.height = innerHeight + 'px';
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        var points = [];
+        var MAX_LIFE = 500;     // ms — 트레일 수명
+        var MAX_WIDTH = 2.4;    // px — 가장 두꺼운 부분
+        var SEGMENT_PX = 3.5;   // px — 보간 간격 (작을수록 부드러움)
+
+        function addPoint(x, y) {
+          var now = performance.now();
+          var last = points[points.length - 1];
+          if (last) {
+            // 빠른 이동 시 점 보간 — 곡선이 끊기지 않게
+            var dx = x - last.x, dy = y - last.y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            var steps = Math.ceil(dist / SEGMENT_PX);
+            for (var i = 1; i < steps; i++) {
+              var t = i / steps;
+              points.push({ x: last.x + dx * t, y: last.y + dy * t, t: now - (1 - t) * 6 });
+            }
+          }
+          points.push({ x: x, y: y, t: now });
+        }
+
+        document.addEventListener('mousemove', function (e) {
+          addPoint(e.clientX, e.clientY);
+        });
+
+        function tick() {
+          var now = performance.now();
+          // 수명 다한 점 제거
+          while (points.length && now - points[0].t > MAX_LIFE) points.shift();
+
+          ctx.clearRect(0, 0, innerWidth, innerHeight);
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+
+          // 부드러운 곡선 — quadratic curve로 인접 3점 연결
+          for (var i = 1; i < points.length; i++) {
+            var p1 = points[i - 1];
+            var p2 = points[i];
+            var age = (now - p2.t) / MAX_LIFE;
+            var life = 1 - age;
+            if (life <= 0) continue;
+
+            // 가속(ease-out) — 끝부분에서 더 빠르게 사라짐
+            var ease = life * life;
+
+            ctx.lineWidth = ease * MAX_WIDTH;
+            ctx.strokeStyle = 'rgba(255, 255, 255, ' + (ease * 0.9) + ')';
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+
+            if (i < points.length - 1) {
+              var p3 = points[i + 1];
+              var midX = (p2.x + p3.x) / 2;
+              var midY = (p2.y + p3.y) / 2;
+              ctx.quadraticCurveTo(p2.x, p2.y, midX, midY);
+            } else {
+              ctx.lineTo(p2.x, p2.y);
+            }
+            ctx.stroke();
+          }
+          requestAnimationFrame(tick);
+        }
+        tick();
+      })();
     });
   </script>
 </head>
@@ -543,5 +629,8 @@
     </div>
     <!-- // #wrap -->
   </s_t3>
+
+  <!-- Ink Stroke Trail (마우스 잉크 트레일) -->
+  <canvas class="ink-trail" aria-hidden="true"></canvas>
 </body>
 </html>

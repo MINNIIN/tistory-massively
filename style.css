@@ -1463,3 +1463,24 @@ input[type="submit"]:hover {
 
 /* admin 도구 노출 제어 */
 .btn-for-guest, .btn-for-user { display: none; }
+
+/* ============================================
+   Ink Stroke Trail (마우스 잉크 트레일)
+   - canvas 오버레이로 부드러운 곡선 트레일 그리기
+   - mix-blend-mode: difference로 다크/라이트 자동 반전
+   ============================================ */
+.ink-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+
+/* 모바일/터치 디바이스에선 비활성화 */
+@media (hover: none), (pointer: coarse) {
+  .ink-trail { display: none; }
+}
