@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <title>[##_page_title_##]</title>
+  <meta name="title" content="[##_page_title_##] :: [##_title_##]" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+  <link rel="alternate" type="application/rss+xml" title="[##_title_##]" href="[##_rss_url_##]" />
+
+  <!-- Fonts: Pretendard(한글) + Source Sans Pro(영문 헤딩) + Merriweather(영문 본문 옵션) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" as="style" crossorigin
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Source+Sans+Pro:wght@400;600;900&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome (Massively 아이콘) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://t1.daumcdn.net/tistory_admin/static/font/icomoon/icomoon.css" />
+  <link rel="stylesheet" href="./style.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script>
+    $(function () {
+      $('.btn_menu').on('click', function () {
+        $('.area_sidebar').show();
+        $('body').css('overflow', 'hidden');
+      });
+      $('.btn_search').on('click', function () {
+        $('.area_popup').show();
+        $('body').css('overflow', 'hidden');
+      });
+      $('.btn_close, .dimmed_sidebar').on('click', function () {
+        $('.area_sidebar, .area_popup').hide();
+        $('body').css('overflow', 'auto');
+      });
+
+      // Continue 버튼 부드러운 스크롤
+      $('a.scrolly').on('click', function (e) {
+        var target = $(this).attr('href');
+        if (target && $(target).length) {
+          e.preventDefault();
+          $('html, body').animate({ scrollTop: $(target).offset().top }, 800);
+        }
+      });
+
+      // 프리로드 해제
+      setTimeout(function () { $('body').removeClass('is-preload'); }, 100);
+    });
+  </script>
+</head>
+
+<body id="[##_body_id_##]" class="[##_var_colorSet_##] is-preload">
+  <s_t3>
+    <div id="wrap" class="fade-in">
+      <div class="bg"></div>
+
+      [##_revenue_list_upper_##]
+
+      <!-- Intro Hero (블로그 메인) -->
+      <s_index>
+        <div id="intro">
+          <h1>[##_title_##]</h1>
+          <p>[##_desc_##]</p>
+          <ul class="actions">
+            <li><a href="#header" class="button icon solid solo fa-arrow-down scrolly">Continue</a></li>
+          </ul>
+        </div>
+      </s_index>
+
+      <!-- Header (보더 로고 박스) -->
+      <header id="header" class="box_header">
+        <a href="[##_blog_link_##]" class="logo link_logo">
+          <s_if_var_logoImage>
+            <img src="[##_var_logoImage_##]" class="img_logo" alt="[##_title_##]">
+          </s_if_var_logoImage>
+          <s_not_var_logoImage>
+            [##_title_##]
+          </s_not_var_logoImage>
+        </a>
+        <button class="btn_search" title="검색"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button type="button" class="btn_menu" title="메뉴"><i class="fa-solid fa-bars"></i><span class="blind">메뉴</span></button>
+      </header>
+
+      <!-- Nav -->
+      <nav id="nav">
+        <ul class="links">
+          <li><a href="[##_blog_link_##]">Home</a></li>
+          [##_blog_menu_##]
+        </ul>
+        <ul class="icons">
+          <s_link_rep>
+            <li><a href="[##_link_url_##]" target="_blank"><span class="label">[##_link_site_##]</span></a></li>
+          </s_link_rep>
+          <li><a href="[##_rss_url_##]" class="icon brands fa-rss" target="_blank"><span class="label">RSS</span></a></li>
+        </ul>
+      </nav>
+
+      <!-- 사이드 패널 -->
+      <aside class="area_sidebar thema_apply" style="display:none;">
+        <div class="inner_sidebar">
+          <button type="button" class="btn_close" title="닫기">
+            <i class="fa-solid fa-xmark"></i>
+            <span class="blind">닫기</span>
+          </button>
+
+          <div class="sidebar_header">
+            <h1 class="title_logo">
+              <a href="[##_blog_link_##]" class="link_logo">
+                <s_if_var_logoImage><img src="[##_var_logoImage_##]" class="img_logo" alt="[##_title_##]"></s_if_var_logoImage>
+                <s_not_var_logoImage>[##_title_##]</s_not_var_logoImage>
+              </a>
+            </h1>
+          </div>
+
+          <div class="sidebar_contents">
+            <s_sidebar>
+              <s_sidebar_element>
+                <div class="box_gnb">
+                  <h3 class="title_sidebar">Category</h3>
+                  <nav>[##_category_list_##]</nav>
+                </div>
+              </s_sidebar_element>
+              <s_sidebar_element>
+                <div class="box_recent">
+                  <h3 class="title_sidebar">Recent Posts</h3>
+                  <ul class="list_sidebar">
+                    <s_rctps_rep>
+                      <li class="item_sidebar"><a href="[##_rctps_rep_link_##]">[##_rctps_rep_title_##]</a></li>
+                    </s_rctps_rep>
+                  </ul>
+                </div>
+              </s_sidebar_element>
+            </s_sidebar>
+
+            <div class="sidebar_footer">
+              <a href="https://leeminsu-dev.vercel.app/" target="_blank" rel="noopener" class="sidebar_link">
+                <i class="fa-solid fa-globe"></i> Portfolio
+              </a>
+              <a href="mailto:jujoa102949@gmail.com" class="sidebar_link">
+                <i class="fa-regular fa-envelope"></i> Contact
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="dimmed_sidebar"></div>
+      </aside>
+
+      <!-- 검색 팝업 -->
+      <div class="area_popup" style="display:none;">
+        <div class="area_search thema_apply">
+          <div class="search_header">
+            <h1 class="title_logo">
+              <a href="[##_blog_link_##]" class="link_logo">[##_title_##]</a>
+            </h1>
+            <button type="button" class="btn_close" title="닫기"><span class="icon-Close"></span></button>
+          </div>
+          <div class="search_content">
+            <form action="" method="get">
+              <div class="box_form">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <s_search>
+                  <input type="text" name="[##_search_name_##]" placeholder="SEARCH" value=""
+                    class="inp_search"
+                    onkeypress="if (event.keyCode == 13) { [##_search_onclick_submit_##] }">
+                </s_search>
+              </div>
+            </form>
+
+            <s_sidebar>
+              <s_sidebar_element>
+                <div class="tag_zone">
+                  <h3 class="title_sidebar">Tags</h3>
+                  <div class="box_tag">
+                    <s_random_tags><a href="[##_tag_link_##]" class="[##_tag_class_##]">[##_tag_name_##]</a></s_random_tags>
+                  </div>
+                </div>
+              </s_sidebar_element>
+              <s_sidebar_element>
+                <div class="tag_board">
+                  <h3 class="title_sidebar">Recent Posts</h3>
+                  <ul class="list_sidebar">
+                    <s_rctps_rep>
+                      <li class="item_sidebar"><a href="[##_rctps_rep_link_##]">[##_rctps_rep_title_##]</a></li>
+                    </s_rctps_rep>
+                  </ul>
+                </div>
+              </s_sidebar_element>
+            </s_sidebar>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main -->
+      <div id="main">
+
+        <!-- 커버 -->
+        <s_cover_group>
+          <div class="area_cover">
+            <s_cover_rep>
+
+              <s_cover name='featured'>
+                <article class="post featured">
+                  <s_cover_item>
+                    <header class="major">
+                      <h2><a href="[##_cover_item_url_##]">[##_cover_item_title_##]</a></h2>
+                      <p>[##_cover_item_summary_##]</p>
+                    </header>
+                    <s_cover_item_thumbnail>
+                      <a href="[##_cover_item_url_##]" class="image main">
+                        <img src="[##_cover_item_thumbnail_##]" alt="" />
+                      </a>
+                    </s_cover_item_thumbnail>
+                    <ul class="actions special">
+                      <li><a href="[##_cover_item_url_##]" class="button large">Full Story</a></li>
+                    </ul>
+                  </s_cover_item>
+                </article>
+              </s_cover>
+
+              <s_cover name='post'>
+                <section class="posts cover-post">
+                  <h2 class="title_section">[##_cover_title_##]</h2>
+                  <div class="posts-grid">
+                    <s_cover_item>
+                      <article>
+                        <header>
+                          <s_cover_item_article_info>
+                            <span class="date">[##_cover_item_date_##]</span>
+                          </s_cover_item_article_info>
+                          <h2><a href="[##_cover_item_url_##]">[##_cover_item_title_##]</a></h2>
+                        </header>
+                        <s_cover_item_thumbnail>
+                          <a href="[##_cover_item_url_##]" class="image fit">
+                            <img src="[##_cover_item_thumbnail_##]" alt="" />
+                          </a>
+                        </s_cover_item_thumbnail>
+                        <p>[##_cover_item_summary_##]</p>
+                        <ul class="actions special">
+                          <li><a href="[##_cover_item_url_##]" class="button">Full Story</a></li>
+                        </ul>
+                      </article>
+                    </s_cover_item>
+                  </div>
+                </section>
+              </s_cover>
+
+              <s_cover name='card'>
+                <section class="posts cover-card">
+                  <h2 class="title_section">[##_cover_title_##]</h2>
+                  <div class="posts-grid">
+                    <s_cover_item>
+                      <article>
+                        <s_cover_item_thumbnail>
+                          <a href="[##_cover_item_url_##]" class="image fit">
+                            <img src="[##_cover_item_thumbnail_##]" alt="" />
+                          </a>
+                        </s_cover_item_thumbnail>
+                        <header>
+                          <h2><a href="[##_cover_item_url_##]">[##_cover_item_title_##]</a></h2>
+                        </header>
+                        <p>[##_cover_item_summary_##]</p>
+                      </article>
+                    </s_cover_item>
+                  </div>
+                </section>
+              </s_cover>
+
+              <s_cover name='banner'>
+                <section class="posts cover-banner">
+                  <h2 class="title_section">[##_cover_title_##]</h2>
+                  <ul class="list_type_banner">
+                    <s_cover_item>
+                      <li class="item_banner">
+                        <a href="[##_cover_item_url_##]" class="link_banner item-thumbnail"
+                          style="background-image:url('<s_cover_item_thumbnail>[##_cover_item_thumbnail_##]</s_cover_item_thumbnail>')">
+                          <div class="box_content">
+                            <strong>[##_cover_item_title_##]</strong>
+                            <p class="text">[##_cover_item_summary_##]</p>
+                          </div>
+                        </a>
+                      </li>
+                    </s_cover_item>
+                  </ul>
+                </section>
+              </s_cover>
+
+              <s_cover name='notice'>
+                <section class="posts cover-notice">
+                  <h2 class="title_section">[##_cover_title_##]</h2>
+                  <ul class="list_type_notice">
+                    <s_cover_item>
+                      <li class="item_notice">
+                        <a href="[##_cover_item_url_##]" class="link_notice">
+                          <span class="thumnail item-thumbnail"
+                            style="background-image:url('<s_cover_item_thumbnail>[##_cover_item_thumbnail_##]</s_cover_item_thumbnail>')"></span>
+                          <div class="info">
+                            <strong>[##_cover_item_title_##]</strong>
+                            <p class="text">[##_cover_item_summary_##]</p>
+                            <s_cover_item_article_info>
+                              <span class="date">[##_cover_item_date_##]</span>
+                            </s_cover_item_article_info>
+                          </div>
+                        </a>
+                      </li>
+                    </s_cover_item>
+                  </ul>
+                </section>
+              </s_cover>
+
+            </s_cover_rep>
+          </div>
+        </s_cover_group>
+
+        <!-- 카테고리/리스트 -->
+        <s_list>
+          <section class="posts category-list">
+            <h2 class="title_section">[##_list_conform_##] <span>([##_list_count_##])</span></h2>
+            <div class="posts-grid">
+              <s_list_rep>
+                <article>
+                  <header>
+                    <span class="date">[##_list_rep_regdate_##]</span>
+                    <h2><a href="[##_list_rep_link_##]">[##_list_rep_title_##]</a></h2>
+                  </header>
+                  <s_list_rep_thumbnail>
+                    <a href="[##_list_rep_link_##]" class="image fit">
+                      <img src="https://i1.daumcdn.net/thumb/R750x0.fwebp.q85/?fname=[##_list_rep_thumbnail_url_##]" alt="" />
+                    </a>
+                  </s_list_rep_thumbnail>
+                  <p>[##_list_rep_summary_##]</p>
+                  <ul class="actions special">
+                    <li><a href="[##_list_rep_link_##]" class="button">Full Story</a></li>
+                  </ul>
+                </article>
+              </s_list_rep>
+            </div>
+          </section>
+        </s_list>
+
+        <!-- 본문 -->
+        <s_article_rep>
+          <s_permalink_article_rep>
+            <article class="post post-view">
+              <header class="major">
+                <span class="date">[##_article_rep_date_##] · [##_article_rep_category_##]</span>
+                <h1>[##_article_rep_title_##]</h1>
+              </header>
+              <div class="article_view" id="article-view">
+                [##_article_rep_desc_##]
+              </div>
+
+              <s_tag_label>
+                <div class="area_tag">
+                  <h3 class="title_tag">TAG</h3>
+                  <div class="tag_content thema_apply">[##_tag_label_rep_##]</div>
+                </div>
+              </s_tag_label>
+
+              <s_article_related>
+                <section class="posts area_related">
+                  <h3 class="title_related">Related</h3>
+                  <div class="posts-grid related-grid">
+                    <s_article_related_rep>
+                      <article>
+                        <s_article_related_rep_thumbnail>
+                          <a href="[##_article_related_rep_link_##]" class="image fit">
+                            <img src="[##_article_related_rep_thumbnail_link_##]" alt="" />
+                          </a>
+                        </s_article_related_rep_thumbnail>
+                        <header>
+                          <h3><a href="[##_article_related_rep_link_##]">[##_article_related_rep_title_##]</a></h3>
+                          <span class="date">[##_article_related_rep_date_##]</span>
+                        </header>
+                      </article>
+                    </s_article_related_rep>
+                  </div>
+                </section>
+              </s_article_related>
+
+              <div class="area_reply">
+                <s_rp>[##_comment_group_##]</s_rp>
+              </div>
+            </article>
+          </s_permalink_article_rep>
+        </s_article_rep>
+
+        <!-- 보호글 -->
+        <s_article_protected>
+          <s_permalink_article_rep>
+            <article class="post post-view">
+              <header class="major">
+                <h1>[##_article_rep_title_##]</h1>
+                <span class="date">[##_article_rep_date_##]</span>
+              </header>
+              <form class="protected_form" onsubmit="[##_article_dissolve_##]">
+                <p>보호되어 있는 글입니다. 비밀번호를 입력하세요.</p>
+                <input type="password" id="[##_article_password_##]" name="[##_article_password_##]" placeholder="비밀번호" />
+                <button type="submit" class="button">확인</button>
+              </form>
+            </article>
+          </s_permalink_article_rep>
+        </s_article_protected>
+
+        <!-- 페이지 -->
+        <s_page_rep>
+          <article class="post post-view">
+            <header class="major">
+              <h1>[##_article_rep_title_##]</h1>
+              <span class="date">[##_article_rep_date_##]</span>
+            </header>
+            <div class="article_view" id="article-view">[##_article_rep_desc_##]</div>
+          </article>
+        </s_page_rep>
+
+        <!-- 공지 -->
+        <s_notice_rep>
+          <s_index_article_rep>
+            <article class="post">
+              <header>
+                <span class="date">[##_notice_rep_date_##]</span>
+                <h2><a href="[##_notice_rep_link_##]">[##_notice_rep_title_##]</a></h2>
+              </header>
+              <p>[##_notice_rep_summary_##]</p>
+            </article>
+          </s_index_article_rep>
+          <s_permalink_article_rep>
+            <article class="post post-view">
+              <header class="major">
+                <span class="date">[##_notice_rep_date_##]</span>
+                <h1>[##_notice_rep_title_##]</h1>
+              </header>
+              <div class="article_view" id="article-view">[##_notice_rep_desc_##]</div>
+            </article>
+          </s_permalink_article_rep>
+        </s_notice_rep>
+
+        <!-- 태그 -->
+        <s_tag>
+          <section class="post">
+            <header class="major"><h2>Tags</h2></header>
+            <div class="tag_zone">
+              <s_tag_rep>
+                <a href="[##_tag_link_##]" class="[##_tag_class_##]">[##_tag_name_##]</a>
+              </s_tag_rep>
+            </div>
+          </section>
+        </s_tag>
+
+        <!-- 방명록 -->
+        <s_guest>
+          <section class="post post-view">[##_guestbook_group_##]</section>
+        </s_guest>
+
+        <!-- 페이지네이션 -->
+        <s_paging>
+          <footer class="pagination-wrap">
+            <div class="pagination">
+              <a [##_prev_page_##] class="previous [##_no_more_prev_##]">Prev</a>
+              <s_paging_rep>
+                <a [##_paging_rep_link_##] class="page">[##_paging_rep_link_num_##]</a>
+              </s_paging_rep>
+              <a [##_next_page_##] class="next [##_no_more_next_##]">Next</a>
+            </div>
+          </footer>
+        </s_paging>
+
+      </div>
+      <!-- // #main -->
+
+      [##_revenue_list_lower_##]
+
+      <!-- Footer -->
+      <footer id="footer">
+        <div class="footer-inner">
+
+          <section class="footer-col footer-about">
+            <h3>About</h3>
+            <p class="footer-brand"><strong>MINGCODING</strong></p>
+            <p class="footer-bio">사용자에게는 더 나은 경험을, 사회에는 실질적인 도움이 되는 서비스 개발을 지향합니다.</p>
+            <p class="footer-contact">
+              <a href="mailto:jujoa102949@gmail.com">
+                <i class="fa-regular fa-envelope"></i>
+                <span>jujoa102949@gmail.com</span>
+              </a>
+            </p>
+          </section>
+
+          <section class="footer-col">
+            <h3>Recent Posts</h3>
+            <ul>
+              <s_rctps_rep>
+                <li><a href="[##_rctps_rep_link_##]">[##_rctps_rep_title_##]</a></li>
+              </s_rctps_rep>
+            </ul>
+          </section>
+
+          <section class="footer-col">
+            <h3>Tags</h3>
+            <div class="tag_zone">
+              <s_random_tags><a href="[##_tag_link_##]" class="[##_tag_class_##]">[##_tag_name_##]</a></s_random_tags>
+            </div>
+          </section>
+
+          <section class="footer-col">
+            <h3>Social</h3>
+            <ul class="icons alt">
+              <li>
+                <a href="https://leeminsu-dev.vercel.app/" class="icon alt" target="_blank" rel="noopener" title="Portfolio">
+                  <i class="fa-solid fa-globe"></i>
+                  <span class="label">Portfolio</span>
+                </a>
+              </li>
+              <s_link_rep>
+                <li><a href="[##_link_url_##]" class="icon brands alt" target="_blank"><span class="label">[##_link_site_##]</span></a></li>
+              </s_link_rep>
+            </ul>
+          </section>
+
+        </div>
+      </footer>
+
+      <div id="copyright">
+        <ul>
+          <li>&copy; [##_title_##]. All rights reserved.</li>
+          <s_if_var_footerCopyright>
+            <li>[##_var_footerCopyright_##]</li>
+          </s_if_var_footerCopyright>
+          <li>Powered by <a href="https://www.tistory.com" target="_blank">Tistory</a></li>
+          <li>Design: <a href="https://html5up.net" target="_blank">HTML5 UP</a></li>
+        </ul>
+      </div>
+
+    </div>
+    <!-- // #wrap -->
+  </s_t3>
+</body>
+</html>
