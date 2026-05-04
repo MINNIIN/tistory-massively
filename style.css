@@ -29,9 +29,9 @@ body {
   font-weight: 400;
   font-size: 1rem;
   line-height: 1.85;
-  word-break: keep-all;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* word-break: keep-all는 콘텐츠 영역(.posts-grid, #article-view)에만 scoped로 적용 */
 }
 
 /* 스크롤은 동작하되 스크롤바는 숨김 — 메인 페이지 */
@@ -56,7 +56,7 @@ a:hover { border-bottom-color: transparent; color: #18bfef; }
 
 strong, b { font-weight: 600; color: #212931; }
 em, i { font-style: italic; }
-p { margin: 0 0 1.5rem 0; text-align: left; word-break: keep-all; }
+p { margin: 0 0 1.5rem 0; text-align: left; }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Source Sans Pro', 'Apple SD Gothic Neo', sans-serif;
@@ -706,7 +706,14 @@ input[type="submit"]:hover {
   word-break: keep-all;
   overflow-wrap: anywhere;
 }
-#article-view * { box-sizing: border-box; max-width: 100%; }
+#article-view * { box-sizing: border-box; }
+/* 미디어 요소만 컨테이너에 맞게 — 팝업/메뉴는 영향받지 않음 */
+#article-view img,
+#article-view video,
+#article-view iframe,
+#article-view table,
+#article-view pre,
+#article-view figure { max-width: 100%; }
 #article-view p,
 #article-view p[data-ke-size] {
   font-size: 1rem;
@@ -1463,6 +1470,35 @@ input[type="submit"]:hover {
 
 /* admin 도구 노출 제어 */
 .btn-for-guest, .btn-for-user { display: none; }
+
+/* ============================================
+   Tistory 네이티브 UI 보호
+   - 좋아요/공유/수정 팝업·드롭다운 메뉴
+   - 글로벌 CSS 영향 차단 (강력 모드)
+   ============================================ */
+[class^="tt-"], [class*=" tt-"],
+[class^="tt_"], [class*=" tt_"],
+[class*="popup"], [class*="Popup"],
+[class*="layer"], [class*="Layer"],
+[class*="dropdown"], [class*="Dropdown"],
+[role="menu"], [role="menuitem"], [role="dialog"], [role="tooltip"] {
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  max-width: none !important;
+}
+
+/* 메뉴 항목 (수정/비공개로/삭제, URL 복사/카톡/페북/X 공유 등) — 한 줄 강제 */
+[class*="tt-pop"] a, [class*="tt-pop"] button, [class*="tt-pop"] li,
+[class*="tt-layer"] a, [class*="tt-layer"] button, [class*="tt-layer"] li,
+[class*="popup"] a, [class*="popup"] button, [class*="popup"] li,
+[class*="layer"] a, [class*="layer"] button, [class*="layer"] li,
+[class*="dropdown"] a, [class*="dropdown"] button, [class*="dropdown"] li,
+[role="menu"] a, [role="menu"] button, [role="menu"] li,
+[role="menuitem"],
+.tt-box-thumbs a, .tt-box-thumbs button,
+.tt-box-share a, .tt-box-share button {
+  white-space: nowrap !important;
+}
 
 /* ============================================
    Ink Stroke Trail (마우스 잉크 트레일)
