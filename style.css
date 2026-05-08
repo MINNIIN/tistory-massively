@@ -1501,19 +1501,23 @@ input[type="submit"]:hover {
 }
 
 /* ============================================
-   Ink Stroke Trail (마우스 잉크 트레일)
-   - canvas 오버레이로 부드러운 곡선 트레일 그리기
+   Cursor Follower Ring (마우스 lerp 추적 외곽 원)
+   - 시스템 커서 위에 떠있는 원형 outline
    - mix-blend-mode: difference로 다크/라이트 자동 반전
    ============================================ */
 .ink-trail {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
   mix-blend-mode: difference;
+  transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+  will-change: transform;
 }
 
 /* 모바일/터치 디바이스에선 비활성화 */
