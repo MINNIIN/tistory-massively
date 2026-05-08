@@ -57,21 +57,25 @@
       setTimeout(function () { $('body').removeClass('is-preload'); }, 100);
 
       // ───────────────────────────────────
-      // Cursor Follower Ring (마우스 lerp 추적 외곽 원)
+      // Custom Cursor — 시스템 커서 숨기고 라임 화살표(arrow) + lerp ring 으로 대체.
+      // arrow 는 마우스 좌표 즉시, ring 은 lerp 0.18 로 살짝 늦게.
       // ───────────────────────────────────
       (function () {
         if (matchMedia('(hover: none), (pointer: coarse)').matches) return;
 
         var ring = document.querySelector('.ink-trail');
-        if (!ring) return;
+        var arrow = document.querySelector('.cursor-arrow');
+        if (!ring || !arrow) return;
 
         var mouseX = -100, mouseY = -100;
         var ringX = -100, ringY = -100;
-        var LERP = 0.18; // 작을수록 더 늦게 따라옴
+        var LERP = 0.18;
 
         document.addEventListener('mousemove', function (e) {
           mouseX = e.clientX;
           mouseY = e.clientY;
+          arrow.style.transform =
+            'translate3d(' + mouseX + 'px, ' + mouseY + 'px, 0)';
         });
 
         function tick() {
@@ -574,5 +578,15 @@
 
   <!-- Ink Stroke Trail (마우스 잉크 트레일) -->
   <div class="ink-trail" aria-hidden="true"></div>
+  <div class="cursor-arrow" aria-hidden="true">
+    <svg width="16" height="18" viewBox="0 0 16 18" fill="none">
+      <path d="M1 1 L1 14.5 L5 11 L13 13 Z"
+            fill="#6a8a0d"
+            stroke="#0a0a0a"
+            stroke-width="0.9"
+            stroke-linejoin="round"
+            stroke-linecap="round"/>
+    </svg>
+  </div>
 </body>
 </html>
