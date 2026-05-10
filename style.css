@@ -1502,23 +1502,26 @@ input[type="submit"]:hover {
 
 /* ============================================
    Cursor Follower Ring (마우스 lerp 추적 외곽 원)
-   - 시스템 커서 위에 떠있는 원형 outline
-   - mix-blend-mode: difference로 다크/라이트 자동 반전
+   - 평소엔 hidden(opacity:0), a/button 호버 시에만 .is-visible 로 표시
+   - mix-blend-mode: difference 로 다크/라이트 자동 반전
    ============================================ */
-/* .ink-trail {
+.ink-trail {
   position: fixed;
   top: 0;
   left: 0;
-  width: 12px;
-  height: 12px;
+  width: 32px;
+  height: 32px;
   border: 1.5px solid rgba(255, 255, 255, 0.9);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
   mix-blend-mode: difference;
   transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
-  will-change: transform;
-} */
+  will-change: transform, opacity;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.ink-trail.is-visible { opacity: 1; }
 
 /* 모바일/터치 디바이스에선 비활성화 */
 @media (hover: none), (pointer: coarse) {
@@ -1540,19 +1543,30 @@ input[type="submit"]:hover {
   z-index: 10000;
   filter: drop-shadow(0 1px 2px rgba(15, 20, 36, 0.35));
   transform: translate3d(-100px, -100px, 0);
-  will-change: transform;
+  will-change: transform, opacity;
+  transition: opacity 0.15s ease;
 }
 .cursor-arrow svg { display: block; }
+/* 호버 시 시스템 손 모양으로 자리 양보 */
+.cursor-arrow.is-hidden { opacity: 0; }
 
 @media (hover: none), (pointer: coarse) {
   .cursor-arrow { display: none; }
 }
 
 /* 데스크톱(hover + fine pointer) 환경에서만 시스템 커서 글로벌 숨김.
-   다른 CSS 의 cursor: pointer 등을 덮어써야 해서 !important. */
+   다른 CSS 의 cursor: pointer 등을 덮어써야 해서 !important.
+   단, a/button 호버 시에는 시스템 손 모양을 보여줌(ring 과 함께). */
 @media (hover: hover) and (pointer: fine) {
   *, *::before, *::after {
     cursor: none !important;
+  }
+  a:hover, a:hover *,
+  button:hover, button:hover *,
+  [role='button']:hover, [role='button']:hover *,
+  summary:hover, summary:hover *,
+  label[for]:hover, label[for]:hover * {
+    cursor: pointer !important;
   }
   input:not([type='submit']):not([type='button']):not([type='reset']),
   textarea,

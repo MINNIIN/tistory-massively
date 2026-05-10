@@ -57,7 +57,7 @@
       setTimeout(function () { $('body').removeClass('is-preload'); }, 100);
 
       // ───────────────────────────────────
-      // Custom Cursor — 시스템 커서 숨기고 라임 화살표(arrow) + lerp ring 으로 대체.
+      // Custom Cursor — 평소엔 라임 화살표(arrow), a/button 호버 시 시스템 손 + lerp ring.
       // arrow 는 마우스 좌표 즉시, ring 은 lerp 0.18 로 살짝 늦게.
       // ───────────────────────────────────
       (function () {
@@ -66,6 +66,9 @@
         var ring = document.querySelector('.ink-trail');
         var arrow = document.querySelector('.cursor-arrow');
         if (!ring || !arrow) return;
+
+        var HOVER_SELECTOR =
+          'a, button, [role="button"], summary, label[for], input[type="submit"], input[type="button"], input[type="reset"]';
 
         var mouseX = -100, mouseY = -100;
         var ringX = -100, ringY = -100;
@@ -76,6 +79,16 @@
           mouseY = e.clientY;
           arrow.style.transform =
             'translate3d(' + mouseX + 'px, ' + mouseY + 'px, 0)';
+
+          var target = e.target;
+          var hovering = target && target.closest && target.closest(HOVER_SELECTOR);
+          if (hovering) {
+            ring.classList.add('is-visible');
+            arrow.classList.add('is-hidden');
+          } else {
+            ring.classList.remove('is-visible');
+            arrow.classList.remove('is-hidden');
+          }
         });
 
         function tick() {
