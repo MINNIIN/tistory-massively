@@ -55,14 +55,19 @@
 
       // 프리로드 해제
       setTimeout(function () { $('body').removeClass('is-preload'); }, 100);
+    });
+  </script>
 
-      // ───────────────────────────────────
-      // Custom Cursor — 평소엔 라임 화살표(arrow), a/button 호버 시 시스템 손 + lerp ring.
-      // arrow 는 마우스 좌표 즉시, ring 은 lerp 0.18 로 살짝 늦게.
-      // ───────────────────────────────────
-      (function () {
-        if (matchMedia('(hover: none), (pointer: coarse)').matches) return;
-
+  <!-- Custom Cursor — jQuery 와 무관하게 동작해야 모달/이미지뷰어에서도 안전 -->
+  <script>
+    (function () {
+      if (matchMedia('(hover: none), (pointer: coarse)').matches) return;
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+      function init() {
         var ring = document.querySelector('.ink-trail');
         var arrow = document.querySelector('.cursor-arrow');
         if (!ring || !arrow) return;
@@ -74,22 +79,30 @@
         var ringX = -100, ringY = -100;
         var LERP = 0.18;
 
+        function syncHoverAt(x, y) {
+          var el = document.elementFromPoint(x, y);
+          var hovering = el && el.closest && el.closest(HOVER_SELECTOR);
+          arrow.classList.toggle('is-hidden', !!hovering);
+          ring.classList.toggle('is-visible', !!hovering);
+        }
         document.addEventListener('mousemove', function (e) {
           mouseX = e.clientX;
           mouseY = e.clientY;
           arrow.style.transform =
             'translate3d(' + mouseX + 'px, ' + mouseY + 'px, 0)';
-
           var target = e.target;
           var hovering = target && target.closest && target.closest(HOVER_SELECTOR);
-          if (hovering) {
-            ring.classList.add('is-visible');
-            arrow.classList.add('is-hidden');
-          } else {
-            ring.classList.remove('is-visible');
-            arrow.classList.remove('is-hidden');
-          }
+          arrow.classList.toggle('is-hidden', !!hovering);
+          ring.classList.toggle('is-visible', !!hovering);
         });
+        // Phocus 닫기 버튼을 누르고 마우스를 안 움직이면 is-hidden 이 stuck 됨.
+        document.addEventListener('click', function (e) {
+          if (e.target && e.target.closest && e.target.closest('.phocus-close-btn')) {
+            requestAnimationFrame(function () {
+              requestAnimationFrame(function () { syncHoverAt(mouseX, mouseY); });
+            });
+          }
+        }, true);
 
         function tick() {
           ringX += (mouseX - ringX) * LERP;
@@ -99,8 +112,21 @@
           requestAnimationFrame(tick);
         }
         tick();
-      })();
-    });
+
+        // Phocus 이미지 뷰어가 body 에 mount 되면 z-index 가 같아 DOM 순서로 밀리므로,
+        // body 자식이 추가될 때마다 우리 커서를 다시 끝으로 옮긴다.
+        function ensureCursorLast() {
+          if (arrow !== document.body.lastElementChild) {
+            document.body.appendChild(ring);
+            document.body.appendChild(arrow);
+          }
+        }
+        new MutationObserver(ensureCursorLast).observe(document.body, {
+          childList: true,
+        });
+        ensureCursorLast();
+      }
+    })();
   </script>
 </head>
 

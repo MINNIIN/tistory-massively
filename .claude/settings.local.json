@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/iminsu/Documents/dev/my/tistory-massively log --oneline -10)",
+      "Bash(git -C /Users/iminsu/Documents/dev/my/tistory-massively status)"
+    ]
+  }
+}
