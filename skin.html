@@ -82,7 +82,6 @@
         function syncHoverAt(x, y) {
           var el = document.elementFromPoint(x, y);
           var hovering = el && el.closest && el.closest(HOVER_SELECTOR);
-          arrow.classList.toggle('is-hidden', !!hovering);
           ring.classList.toggle('is-visible', !!hovering);
         }
         document.addEventListener('mousemove', function (e) {
@@ -92,7 +91,6 @@
             'translate3d(' + mouseX + 'px, ' + mouseY + 'px, 0)';
           var target = e.target;
           var hovering = target && target.closest && target.closest(HOVER_SELECTOR);
-          arrow.classList.toggle('is-hidden', !!hovering);
           ring.classList.toggle('is-visible', !!hovering);
         });
         // Phocus 닫기 버튼을 누르고 마우스를 안 움직이면 is-hidden 이 stuck 됨.

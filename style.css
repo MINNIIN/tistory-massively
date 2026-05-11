@@ -282,8 +282,11 @@ body.is-preload #intro { opacity: 0; transform: translateY(2rem); }
 
 #nav ul.icons { display: flex; align-items: center; }
 #nav ul.icons li a {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 2.5rem;
+  height: 100%;
   text-align: center;
   font-size: .9rem;
   color: rgba(255,255,255,.7);
@@ -1555,22 +1558,10 @@ input[type="submit"]:hover {
 }
 
 /* 데스크톱(hover + fine pointer) 환경에서만 시스템 커서 글로벌 숨김.
-   다른 CSS 의 cursor: pointer 등을 덮어써야 해서 !important.
-   단, a/button 호버 시에는 시스템 손 모양을 보여줌(ring 과 함께). */
+   시스템 cursor 는 완전히 숨기고, custom arrow + ring 만으로 클릭 가능 여부 표현.
+   pointer 부활 규칙이 없어야 작은 요소 위에서 cursor 깜박임이 안 생긴다. */
 @media (hover: hover) and (pointer: fine) {
   *, *::before, *::after {
     cursor: none !important;
-  }
-  a:hover, a:hover *,
-  button:hover, button:hover *,
-  [role='button']:hover, [role='button']:hover *,
-  summary:hover, summary:hover *,
-  label[for]:hover, label[for]:hover * {
-    cursor: pointer !important;
-  }
-  input:not([type='submit']):not([type='button']):not([type='reset']),
-  textarea,
-  [contenteditable='true'] {
-    cursor: text !important;
   }
 }
