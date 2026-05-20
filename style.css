@@ -1426,7 +1426,7 @@ input[type="submit"]:hover {
   margin: 0 auto;
   padding: 0 4rem;
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  grid-template-columns: 1.5fr 1.25fr 2.25fr;
   gap: 3rem;
 }
 #footer h3 {
