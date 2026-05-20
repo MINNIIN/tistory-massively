@@ -184,8 +184,9 @@ body.is-preload #intro { opacity: 0; transform: translateY(2rem); }
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  height: 20rem;
-  padding-bottom: 8rem;
+  height: 11rem;
+  padding-top: 2rem;
+  padding-bottom: 5rem;
   position: relative;
   text-align: center;
   z-index: 2;
@@ -228,10 +229,10 @@ body.is-preload #intro { opacity: 0; transform: translateY(2rem); }
 #header .btn_search:hover { color: #18bfef; }
 
 @media (max-width: 980px) {
-  #header.box_header { height: 14rem; padding-bottom: 4rem; }
+  #header.box_header { height: 10rem; padding-top: 1.5rem; padding-bottom: 4rem; }
 }
 @media (max-width: 736px) {
-  #header.box_header { height: 11rem; padding-bottom: 3rem; }
+  #header.box_header { height: 9rem; padding-top: 1rem; padding-bottom: 3rem; }
   #header .logo, #header .link_logo { font-size: 1.5rem; border-width: 3px; padding: .8rem 1.4rem; }
   #header .btn_menu  { right: 1.25rem; }
   #header .btn_search { right: 4rem; }
@@ -927,35 +928,31 @@ input[type="submit"]:hover {
 }
 
 /* ============================================
-   Sidebar (slide-in 애니메이션)
+   Sidebar (좌측 고정 패널)
    ============================================ */
+:root {
+  --sidebar-width: 320px;
+}
+
 .area_sidebar {
   position: fixed;
-  inset: 0;
+  top: 0; left: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
   z-index: 100;
-  visibility: hidden;
-  pointer-events: none;
-  transition: visibility 0s linear .4s;
-}
-.area_sidebar.is-open {
-  visibility: visible;
-  pointer-events: auto;
-  transition: visibility 0s linear 0s;
 }
 
 .area_sidebar .inner_sidebar {
-  position: fixed;
-  top: 0; right: 0;
-  width: 360px;
+  position: relative;
+  width: 100%;
   height: 100%;
-  padding: 0 2.25rem 2rem 2.25rem;
+  padding: 2.5rem 2rem 2rem 2rem;
   background: #1e252d;
   color: #fff;
   overflow-y: auto;
-  z-index: 101;
-  transform: translateX(100%);
-  transition: transform .4s cubic-bezier(.4, 0, .2, 1);
-  /* 사이드바 내부 스크롤바도 숨김 */
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255,255,255,.06);
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -964,53 +961,44 @@ input[type="submit"]:hover {
   height: 0;
   display: none;
 }
-.area_sidebar.is-open .inner_sidebar {
-  transform: translateX(0);
-}
 
-.area_sidebar .dimmed_sidebar {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.6);
-  z-index: 100;
-  opacity: 0;
-  transition: opacity .4s cubic-bezier(.4, 0, .2, 1);
-}
-.area_sidebar.is-open .dimmed_sidebar {
-  opacity: 1;
-}
+/* 데스크탑에서는 dimmed, 닫기 버튼 숨김 */
+.area_sidebar .dimmed_sidebar { display: none; }
+.area_sidebar .btn_close { display: none; }
 
-/* X 버튼 — 우측 상단 둥근 버튼으로 분리 */
-.area_sidebar .btn_close {
-  position: fixed;
-  top: 1.25rem;
-  right: 1.25rem;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgba(255,255,255,.18);
-  border-radius: 999em;
-  background: rgba(255,255,255,.05);
-  color: rgba(255,255,255,.75);
-  font-size: .95rem;
-  z-index: 102;
-  transition: all .2s ease;
-}
-.area_sidebar .btn_close:hover {
-  background: rgba(255,255,255,.1);
-  border-color: #18bfef;
-  color: #18bfef;
+/* 데스크탑에서 본문을 사이드바 폭만큼 밀어줌 */
+@media (min-width: 981px) {
+  #wrap { margin-left: var(--sidebar-width); }
+  #wrap > .bg { left: var(--sidebar-width); width: calc(100vw - var(--sidebar-width)); }
+  #header .btn_menu,
+  #header .btn_search { display: none; }
 }
 
 .area_sidebar .sidebar_header {
-  padding: 4rem 0 1.75rem 0;
-  border-bottom: 0;
+  padding: 0 0 1.5rem 0;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
+
+/* 프로필 사진 */
+.area_sidebar .sidebar_profile {
+  display: inline-block;
+  border-bottom: 0;
+  margin: 0 0 1rem 0;
+}
+.area_sidebar .sidebar_profile_img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+}
+
 .area_sidebar .title_logo {
-  font-size: 1.4rem;
-  margin: 0;
+  font-size: 1.2rem;
+  margin: 0 0 1.25rem 0;
 }
 .area_sidebar .title_logo .link_logo {
   display: inline-block;
@@ -1023,9 +1011,91 @@ input[type="submit"]:hover {
   line-height: 1;
 }
 
+/* 통계 (전체/오늘/어제) */
+.area_sidebar .sidebar_stats {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.25rem 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .5rem;
+}
+.area_sidebar .sidebar_stats li {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .25rem;
+  padding: .5rem .25rem;
+}
+.area_sidebar .sidebar_stats .stat_label {
+  font-size: .7rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+}
+.area_sidebar .sidebar_stats .stat_value {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: .95rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+
+/* 검색 인풋 */
+.area_sidebar .sidebar_search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 6px;
+  padding: 0 .65rem;
+  transition: border-color .2s ease;
+}
+.area_sidebar .sidebar_search:focus-within {
+  border-color: #18bfef;
+}
+.area_sidebar .sidebar_search > i {
+  color: rgba(255,255,255,.45);
+  font-size: .85rem;
+}
+.area_sidebar .inp_sidebar_search {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  color: #fff;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: .85rem;
+  letter-spacing: .08em;
+  padding: .65rem .5rem;
+  width: 100%;
+}
+.area_sidebar .inp_sidebar_search::placeholder {
+  color: rgba(255,255,255,.35);
+  text-transform: uppercase;
+}
+.area_sidebar .btn_sidebar_search {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: rgba(255,255,255,.55);
+  cursor: pointer;
+  padding: 0;
+  transition: color .2s ease;
+}
+.area_sidebar .btn_sidebar_search:hover { color: #18bfef; }
+
 .area_sidebar .sidebar_contents {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 .area_sidebar .title_sidebar {
   font-family: 'Source Sans Pro', sans-serif;
@@ -1134,9 +1204,74 @@ input[type="submit"]:hover {
 .area_sidebar .btn-for-guest,
 .area_sidebar .btn-for-user { display: none !important; }
 
+/* ==== 모바일 (<=980px) — 좌측 슬라이드인 ==== */
+@media (max-width: 980px) {
+  .area_sidebar {
+    width: 320px;
+    visibility: hidden;
+    pointer-events: none;
+    transition: visibility 0s linear .4s;
+  }
+  .area_sidebar.is-open {
+    visibility: visible;
+    pointer-events: auto;
+    transition: visibility 0s linear 0s;
+  }
+
+  .area_sidebar .inner_sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 320px;
+    height: 100%;
+    z-index: 101;
+    transform: translateX(-100%);
+    transition: transform .4s cubic-bezier(.4, 0, .2, 1);
+  }
+  .area_sidebar.is-open .inner_sidebar { transform: translateX(0); }
+
+  .area_sidebar .dimmed_sidebar {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.6);
+    z-index: 100;
+    opacity: 0;
+    transition: opacity .4s cubic-bezier(.4, 0, .2, 1);
+    pointer-events: none;
+  }
+  .area_sidebar.is-open .dimmed_sidebar {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .area_sidebar .btn_close {
+    display: flex;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 999em;
+    background: rgba(255,255,255,.05);
+    color: rgba(255,255,255,.75);
+    font-size: .95rem;
+    z-index: 102;
+    transition: all .2s ease;
+  }
+  .area_sidebar .btn_close:hover {
+    background: rgba(255,255,255,.1);
+    border-color: #18bfef;
+    color: #18bfef;
+  }
+}
+
 @media (max-width: 736px) {
-  .area_sidebar .inner_sidebar { width: 100%; padding: 0 1.5rem 1.5rem 1.5rem; }
-  .area_sidebar .btn_close { top: 1rem; right: 1rem; }
+  .area_sidebar,
+  .area_sidebar .inner_sidebar { width: 100%; }
+  .area_sidebar .inner_sidebar { padding: 2rem 1.5rem 1.5rem 1.5rem; }
 }
 
 /* Search popup (fade + slide-down 애니메이션) */

@@ -183,12 +183,43 @@
           </button>
 
           <div class="sidebar_header">
-            <h1 class="title_logo">
-              <a href="[##_blog_link_##]" class="link_logo">
-                <s_if_var_logoImage><img src="[##_var_logoImage_##]" class="img_logo" alt="[##_title_##]"></s_if_var_logoImage>
-                <s_not_var_logoImage>[##_title_##]</s_not_var_logoImage>
+            <s_if_var_logoImage>
+              <a href="[##_blog_link_##]" class="sidebar_profile">
+                <img src="[##_var_logoImage_##]" class="sidebar_profile_img" alt="[##_title_##]">
               </a>
+            </s_if_var_logoImage>
+
+            <h1 class="title_logo">
+              <a href="[##_blog_link_##]" class="link_logo">[##_title_##]</a>
             </h1>
+
+            <ul class="sidebar_stats">
+              <li>
+                <span class="stat_label">전체</span>
+                <strong class="stat_value">[##_count_total_##]</strong>
+              </li>
+              <li>
+                <span class="stat_label">오늘</span>
+                <strong class="stat_value">[##_count_today_##]</strong>
+              </li>
+              <li>
+                <span class="stat_label">어제</span>
+                <strong class="stat_value">[##_count_yesterday_##]</strong>
+              </li>
+            </ul>
+
+            <form action="" method="get" class="sidebar_search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <s_search>
+                <input type="text" name="[##_search_name_##]" placeholder="SEARCH" value=""
+                  class="inp_sidebar_search"
+                  onkeypress="if (event.keyCode == 13) { [##_search_onclick_submit_##] }">
+              </s_search>
+              <button type="button" class="btn_sidebar_search" title="검색"
+                onclick="[##_search_onclick_submit_##]">
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </form>
           </div>
 
           <div class="sidebar_contents">
@@ -212,9 +243,11 @@
             </s_sidebar>
 
             <div class="sidebar_footer">
+              <!--
               <a href="https://leeminsu-dev.vercel.app/" target="_blank" rel="noopener" class="sidebar_link">
                 <i class="fa-solid fa-globe"></i> Portfolio
               </a>
+              -->
               <a href="mailto:jujoa102949@gmail.com" class="sidebar_link">
                 <i class="fa-regular fa-envelope"></i> Contact
               </a>
