@@ -684,8 +684,8 @@ input[type="submit"]:hover {
    ============================================ */
 .post.post-view { padding: 6rem 8rem !important; }
 .post.post-view header.major h1 {
-  font-size: 3.5rem;
-  line-height: 1.1;
+  font-size: 2.25rem;
+  line-height: 1.25;
   margin: 1.5rem 0 1.5rem 0;
 }
 .post.post-view header.major .date { margin-bottom: 1rem; }
@@ -700,7 +700,7 @@ input[type="submit"]:hover {
 @media (max-width: 1280px) { .post.post-view { padding: 4rem 4rem !important; } }
 @media (max-width: 736px) {
   .post.post-view { padding: 3rem 2rem !important; }
-  .post.post-view header.major h1 { font-size: 2.25rem; line-height: 1.2; }
+  .post.post-view header.major h1 { font-size: 1.6rem; line-height: 1.3; }
 }
 
 #article-view {
