@@ -682,7 +682,7 @@ input[type="submit"]:hover {
 /* ============================================
    Article view (본문)
    ============================================ */
-.post.post-view { padding: 6rem 8rem !important; }
+.post.post-view { padding: 5rem 4rem !important; }
 .post.post-view header.major h1 {
   font-size: 2.25rem;
   line-height: 1.25;
@@ -697,9 +697,9 @@ input[type="submit"]:hover {
 }
 .post.post-view .image.main img { width: 100%; display: block; }
 
-@media (max-width: 1280px) { .post.post-view { padding: 4rem 4rem !important; } }
+@media (max-width: 1280px) { .post.post-view { padding: 4rem 3rem !important; } }
 @media (max-width: 736px) {
-  .post.post-view { padding: 3rem 2rem !important; }
+  .post.post-view { padding: 3rem 1.5rem !important; }
   .post.post-view header.major h1 { font-size: 1.6rem; line-height: 1.3; }
 }
 
