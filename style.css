@@ -34,16 +34,35 @@ body {
   /* word-break: keep-all는 콘텐츠 영역(.posts-grid, #article-view)에만 scoped로 적용 */
 }
 
-/* 스크롤은 동작하되 스크롤바는 숨김 — 메인 페이지 */
-html, body {
+/* 스크롤은 동작하되 스크롤바는 숨김 — 목록/커버 페이지 한정(.post-view 가 없는 문서) */
+html:not(:has(.post-view)),
+html:not(:has(.post-view)) body {
   scrollbar-width: none;          /* Firefox */
   -ms-overflow-style: none;       /* IE/Edge legacy */
 }
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
+html:not(:has(.post-view))::-webkit-scrollbar,
+html:not(:has(.post-view)) body::-webkit-scrollbar {
   width: 0;
   height: 0;
   display: none;                  /* Chrome / Safari / Edge */
+}
+
+/* 게시글 상세/방명록 등 긴 글 페이지 — 다크 배경에 맞춘 슬림 스크롤바 노출 */
+html:has(.post-view) {
+  scrollbar-width: thin;                                    /* Firefox */
+  scrollbar-color: rgba(255,255,255,.32) rgba(0,0,0,.25);
+}
+html:has(.post-view)::-webkit-scrollbar { width: 10px; }
+html:has(.post-view)::-webkit-scrollbar-track { background: rgba(0,0,0,.25); }
+html:has(.post-view)::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.32);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  border-radius: 10px;
+}
+html:has(.post-view)::-webkit-scrollbar-thumb:hover {
+  background: rgba(24,191,239,.85);
+  background-clip: padding-box;
 }
 
 a {
